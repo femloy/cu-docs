@@ -1,0 +1,42 @@
+<h1>objects</h1>
+You can add custom objects with the events you need.<br>
+<br>
+You can name your objects whatever you want, without spaces or special characters, except underscores.<br>
+The object name is the folder's name. So, the create event for <mark>obj_example</mark> would be at <mark>MOD_PATH/objects/obj_example/create.gml</mark>.<br>
+<br>
+All of the possible events are in the <mark>obj_example</mark> folder.<br>
+
+<h2>Usage</h2>
+<pre><code class="language-gml">instance_create(0, 0, obj_example);</code></pre>
+This creates an instance of the custom <mark>obj_example</mark> object at the top left of the room.
+
+<h2>__OBJECT</h2>
+Instances of custom objects are actually just <mark>obj_mod_object</mark>, and they're identified with their <mark>__OBJECT</mark> variable.<br>
+<br>
+That means you can't use <mark>object_index</mark> with them, so instead:
+
+<pre><code class="language-gml">__OBJECT.name // Gets the name of the object as a string
+__OBJECT.path // Gets the full directory path of the object as a string
+</code></pre>
+<br>
+
+You also can't do <mark>with obj_example</mark>, but you can do this:
+<pre><code class="language-gml">with obj_mod_object
+{
+    if __OBJECT != obj_example
+        continue;
+    // Do something with every obj_example
+}
+</code></pre>
+<br>
+
+And another example:
+<pre><code class="language-gml">if other.object_index != obj_example
+// WRONG
+
+if !(other.object_index == obj_mod_object && other.__OBJECT == obj_example)
+// Unfortunately correct
+</code></pre>
+<br>
+No easier way to handle this I'm afraid. Mod loaders are hard.<br>
+Also I have no idea what happens if you change __OBJECT. So don't do that.

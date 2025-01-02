@@ -1,15 +1,51 @@
 {
-    "Mod Folder":
+    "Mod Path":
     {
+        "objects":
+        {
+            "objects": "@Objects",
+            "obj_example":
+            {
+                "create": "create.gml",
+                "destroy": "destroy.gml",
+                "cleanup": "cleanup.gml",
+                "alarm": "alarm<0-11>.gml",
+                "step": "step.gml",
+                "beginstep": "beginstep.gml",
+                "endstep": "endstep.gml",
+                "draw": "draw.gml",
+                "drawbegin": "drawbegin.gml",
+                "drawend": "drawend.gml",
+                "drawgui": "drawgui.gml",
+                "drawguibegin": "drawguibegin.gml",
+                "drawguiend": "drawguiend.gml",
+                "predraw": "predraw.gml",
+                "postdraw": "postdraw.gml",
+                "outsideroom": "outsideroom.gml",
+                "intersectboundary": "intersectboundary.gml",
+                "roomstart": "roomstart.gml",
+                "roomend": "roomend.gml",
+                "animationend": "animationend.gml",
+                "userevent": "userevent<0-15>.gml"
+            }
+        },
+        "lang":
+        {
+            "language": "@Language"
+        },
         "modjson": "mod.json",
-        "savedata": "saveData.ini"
+        "savedata": "saveData.ini",
+        "icon": "icon.png",
+        "initgml": "init.gml",
+        "cleanupgml": "cleanup.gml"
     },
     "Constants":
     {
-        "camera": "* Camera",
-        "screen": "* Screen",
+        "camera": "@Camera",
+        "screen": "@Screen",
         "modpath": "MOD_PATH",
         "remix": "REMIX",
         "states": "states"
-    }
+    },
+    "main-page": "What is this?"
 }

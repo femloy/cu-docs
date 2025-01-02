@@ -1,0 +1,49 @@
+<h1>language</h1>
+Mods can add or replace text entries to existing languages.<br>
+<em>Adding new languages will not be part of the mod loader.</em><br>
+<br>
+Language files are .txt files, and they look like this:<br>
+
+<pre><code>lang = "en"
+
+# This is a comment
+example_text = "Hello there."
+</code></pre>
+
+This would be the <mark>english.txt</mark> file.<br>
+<em>The <mark>lang</mark> entry is very important.</em> It decides which language to add to. The .txt file name doesn't actually matter.<br>
+<br>
+In Cheesed Up, there's just two languages:<br>
+
+<table>
+    <tr>
+        <th>lang</th>
+        <th>Language</th>
+    </tr>
+
+    <tr>
+        <td>en</td>
+        <td>English</td>
+    </tr>
+    <tr>
+        <td>spa</td>
+        <td>Spanish (Spain)</td>
+    </tr>
+</table>
+
+If you have custom languages installed, and you want to support them, check their <mark>lang</mark> entry.<br>
+
+<h2>Usage</h2>
+In GML code, you can get the entry like this:
+<pre><code class="language-gml">lang_get_value("example_text")
+// OR
+lang_get_value_newline("example_text")
+</code></pre>
+If your text needs multiple lines, use the newline one.<br>
+<br>
+This returns a string containing whatever you set in the <mark>example_text</mark> entry.<br>
+
+<h2>Example</h2>
+<pre><code class="language-gml">// Draw GUI event
+draw_text(0, 0, lang_get_value("example_text"));</code></pre>
+This shows our "Hello there." entry at the top left of the screen.

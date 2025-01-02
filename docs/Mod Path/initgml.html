@@ -1,0 +1,12 @@
+<h1>init.gml</h1>
+Runs when your mod is <em>enabled</em>.<br>
+<br>
+Keep in mind that, this can either run when the game starts, or in the pause menu.<br>
+In both situations, the player would not exist. You need to handle these cases appropriately.<br>
+<br>
+The purpose of this script is for preparing stuff like sprites, globals, save data...<br>
+You can also spawn a controller object that handles stuff more than once, or deals with the player.
+
+<h2>Example</h2>
+<pre><code class="language-gml">global.spr_icon = sprite_add(MOD_PATH + "/sprites/icon.png", 1, false, false, 0, 0);</code></pre>
+This code loads a sprite from a file located at <mark>MOD_PATH/sprites/icon.png</mark>, and stores it in a global variable for future use.

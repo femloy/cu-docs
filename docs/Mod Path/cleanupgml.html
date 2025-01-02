@@ -1,0 +1,12 @@
+<h1>cleanup.gml</h1>
+Runs when your mod is <em>disabled</em>.<br>
+You should use this if your mod adds anything with code.<br>
+<br>
+Your mod doesn't exist anymore when it's disabled, but that stuff lingers.<br>
+If you don't deal with that, the game could have a memory leak or even crash.<br>
+<br>
+Custom sprites and objects are handled automatically, but it's good practice to delete them yourself.
+
+<h2>Example</h2>
+<pre><code class="language-gml">sprite_delete(global.spr_icon);</code></pre>
+This deletes the sprite previously created in <mark>init.gml</mark>.

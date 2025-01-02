@@ -8,7 +8,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/gml.min.js"></script>
 
-	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -24,21 +24,21 @@
 		
 		function create_toggle(title)
 		{
-			const div = document.createElement('div');
-			div.classList.add('toggle');
+			const div = document.createElement("div");
+			div.classList.add("toggle");
 			div.textContent = `> ${title}`;
 
-			div.addEventListener('click', () =>
+			div.addEventListener("click", () =>
 			{
 				const content = div.nextElementSibling;
-				if (content.style.display == 'block')
+				if (content.style.display == "block")
 				{
-					content.style.display = 'none';
+					content.style.display = "none";
 					div.textContent = `> ${title}`;
 				}
 				else
 				{
-					content.style.display = 'block';
+					content.style.display = "block";
 					div.textContent = `v ${title}`;
 				}
 			});
@@ -64,8 +64,11 @@
 			});
 		}
 
-		async function switch_page(filename)
+		async function switch_page(path, pop = false)
 		{
+			var filename = path;
+			if (!filename.startsWith("docs/"))
+				filename = "docs/" + filename;
 			if (!filename.endsWith(".html"))
 				filename += ".html";
 
@@ -76,41 +79,68 @@
 			content.style.animation = "fadein .1s forwards";
 
 			// get html and set it
-			var response = await fetch(filename);
-			var text = await response.text();
+			const response = await fetch(filename);
+			const text = await response.text();
 
 			set_inner_html(content, text);
 			hljs.highlightAll();
 
-			// deselect
-			document.querySelectorAll('.item').forEach(item => item.classList.remove('selected'));
+			// change selection
+			document.querySelectorAll(".item").forEach(item =>
+			{
+				item.classList.remove("selected");
+				if (item.getAttribute("path") == path)
+				{
+					item.classList.add("selected");
+					/*
+					const toggle = item.parentElement;
+					const div = toggle.previousElementSibling;
+
+					toggle.style.display = "block";
+					div.textContent = div.textContent.replace(">", "v");
+					*/
+				}
+			});
+
+			// history
+			if (!pop)
+			{
+				path = path.replace(".html", "");
+				history.pushState(null, null, path == "main-page" ? "?" : ("?page=" + encodeURIComponent(path)));
+			}
+			window.scroll(top);
 		}
 
 		function create_item(name, path)
 		{
-			const div = document.createElement('div');
-			const content = document.getElementById('content');
+			const div = document.createElement("div");
+			const content = document.getElementById("content");
 
-			div.classList.add('item');
-			div.textContent = name;
-
-			div.addEventListener('click', async () =>
+			if (name.startsWith("@"))
 			{
-				await switch_page(path);
-				div.classList.add('selected');
-			});
+				name = name.replace("@", "");
+				div.classList.add("icon", "icon-etc");
+			}
+			if (name.endsWith(".gml"))
+				div.classList.add("icon", "icon-gml");
+
+			div.classList.add("item");
+			div.textContent = name;
+			div.setAttribute("path", path);
+
+			div.addEventListener("click", async () => await switch_page(path));
 			return div;
 		}
 
-		function add_sections(container, data, path = '')
+		function add_sections(container, data, path = "")
 		{
 			Object.entries(data).forEach(([key, value]) =>
 			{
-				if (typeof value == 'object')
+				if (typeof value == "object")
 				{
 					const toggle = create_toggle(key);
-					const content = document.createElement('div');
-					content.classList.add('content');
+					const content = document.createElement("div");
+					content.classList.add("content");
 					add_sections(content, value, path ? `${path}/${key}` : key);
 					container.appendChild(toggle);
 					container.appendChild(content);
@@ -120,15 +150,22 @@
 			})
 		}
 
-		async function fetch_json()
+		async function state_pop()
 		{
-			const r = await fetch('docs.json');
-			const j = await r.json();
-			add_sections(document.getElementById('sections'), j);
+			const params = new URLSearchParams(document.location.search);
+			const name = params.get("page") ?? "main-page";
+			await switch_page(name + ".html", true);
 		}
-		fetch_json();
+	
+	</script>
+	<script type="module">
 
-		switch_page("main-page.html");
+		const r = await fetch("docs.json");
+		const j = await r.json();
+		add_sections(document.getElementById("sections"), j);
+
+		await state_pop();
+		window.addEventListener("popstate", state_pop);
 
 	</script>
 </body>
