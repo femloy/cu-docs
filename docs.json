@@ -1,0 +1,15 @@
+{
+    "Mod Folder":
+    {
+        "modjson": "mod.json",
+        "savedata": "saveData.ini"
+    },
+    "Constants":
+    {
+        "camera": "* Camera",
+        "screen": "* Screen",
+        "modpath": "MOD_PATH",
+        "remix": "REMIX",
+        "states": "states"
+    }
+}

@@ -1,0 +1,33 @@
+<h1>camera</h1>
+The camera is the view in a room.<br>
+<br>
+
+<table>
+    <tr>
+        <th>Constant</th>
+        <th>Value</th>
+    </tr>
+
+    <tr>
+        <td><i>real</i> CAMX</td>
+        <td>camera_get_view_x(view_camera[0])</td>
+    </tr>
+    <tr>
+        <td><i>real</i> CAMY</td>
+        <td>camera_get_view_y(view_camera[0])</td>
+    </tr>
+    <tr>
+        <td><i>real</i> CAMW</td>
+        <td>camera_get_view_width(view_camera[0])</td>
+    </tr>
+    <tr>
+        <td><i>real</i> CAMH</td>
+        <td>camera_get_view_height(view_camera[0])</td>
+    </tr>
+</table>
+
+<h2>Example</h2>
+<pre><code class="language-gml">// Draw event
+draw_sprite(spr_player_idle, 0, CAMX + CAMW / 2, CAMY + CAMH / 2);
+</code></pre>
+This will show <mark>spr_player_idle</mark> at the center of the <em>camera</em>.

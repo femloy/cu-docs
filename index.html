@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Documentation</title>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/gml.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/gml.min.js"></script>
+
+	<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+	<div id="sidebar">
+		<i>B1.5.1</i><br>
+		<div style="margin-top: 10px;"></div>
+		<div id="sections"></div>
+	</div>
+
+	<div id="content"></div>
+
+	<script>
+		
+		function create_toggle(title)
+		{
+			const div = document.createElement('div');
+			div.classList.add('toggle');
+			div.textContent = `> ${title}`;
+
+			div.addEventListener('click', () =>
+			{
+				const content = div.nextElementSibling;
+				if (content.style.display == 'block')
+				{
+					content.style.display = 'none';
+					div.textContent = `> ${title}`;
+				}
+				else
+				{
+					content.style.display = 'block';
+					div.textContent = `v ${title}`;
+				}
+			});
+
+			return div;
+		}
+
+		function set_inner_html(elm, html)
+		{
+			// https://stackoverflow.com/questions/2592092/executing-script-elements-inserted-with-innerhtml
+			elm.innerHTML = html;
+
+			Array.from(elm.querySelectorAll("script")).forEach(oldScriptEl =>
+			{
+				const newScriptEl = document.createElement("script");
+
+				Array.from(oldScriptEl.attributes).forEach(attr => newScriptEl.setAttribute(attr.name, attr.value));
+
+				const scriptText = document.createTextNode(oldScriptEl.innerHTML);
+				newScriptEl.appendChild(scriptText);
+
+				oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
+			});
+		}
+
+		async function switch_page(filename)
+		{
+			if (!filename.endsWith(".html"))
+				filename += ".html";
+
+			// fadein
+			content.style.opacity = 0;
+			content.style.animation = "";
+			content.offsetHeight;
+			content.style.animation = "fadein .1s forwards";
+
+			// get html and set it
+			var response = await fetch(filename);
+			var text = await response.text();
+
+			set_inner_html(content, text);
+			hljs.highlightAll();
+
+			// deselect
+			document.querySelectorAll('.item').forEach(item => item.classList.remove('selected'));
+		}
+
+		function create_item(name, path)
+		{
+			const div = document.createElement('div');
+			const content = document.getElementById('content');
+
+			div.classList.add('item');
+			div.textContent = name;
+
+			div.addEventListener('click', async () =>
+			{
+				await switch_page(path);
+				div.classList.add('selected');
+			});
+			return div;
+		}
+
+		function add_sections(container, data, path = '')
+		{
+			Object.entries(data).forEach(([key, value]) =>
+			{
+				if (typeof value == 'object')
+				{
+					const toggle = create_toggle(key);
+					const content = document.createElement('div');
+					content.classList.add('content');
+					add_sections(content, value, path ? `${path}/${key}` : key);
+					container.appendChild(toggle);
+					container.appendChild(content);
+				}
+				else
+					container.appendChild(create_item(value, path ? `${path}/${key}.html` : `${key}.html`));
+			})
+		}
+
+		async function fetch_json()
+		{
+			const r = await fetch('docs.json');
+			const j = await r.json();
+			add_sections(document.getElementById('sections'), j);
+		}
+		fetch_json();
+
+		switch_page("main-page.html");
+
+	</script>
+</body>
+
+</html>

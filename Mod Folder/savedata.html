@@ -1,0 +1,23 @@
+<h1>savedata.ini</h1>
+The mod's save data.<br>
+
+<br>
+Here's the most barebones save file:<br>
+
+<pre><code class="language-ini">[Mod]
+enabled="1.000000"</code></pre>
+
+The game uses the <mark>enabled</mark> entry to decide whether to activate the mod or not.<br>
+You can add your own save entries to this if your mod needs to save anything.
+<h2>Example</h2>
+<pre><code class="language-gml">ini_open(MOD_PATH + "/saveData.ini");
+
+// Read
+global.times_jumped = ini_read_real("Mod", "times_jumped", 0);
+
+// Write
+ini_write_real("Mod", "times_jumped", global.times_jumped);
+
+ini_close();
+</code></pre>
+This reads the <mark>times_jumped</mark> entry from the save file (returning 0 if it doesn't exist), and then saves the value.

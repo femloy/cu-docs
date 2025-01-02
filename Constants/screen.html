@@ -1,0 +1,25 @@
+<h1>screen</h1>
+These are often used for drawing HUD elements.<br>
+<br>
+
+<table>
+    <tr>
+        <th>Constant</th>
+        <th>Description</th>
+    </tr>
+
+    <tr>
+        <td><i>real</i> SCREEN_WIDTH</td>
+        <td>The ideal screen width. Usually <mark>960</mark>.</td>
+    </tr>
+    <tr>
+        <td><i>real</i> SCREEN_HEIGHT</td>
+        <td>The ideal screen height. Usually <mark>540</mark>.</td>
+    </tr>
+</table>
+
+<h2>Example</h2>
+<pre><code class="language-gml">// Draw GUI event
+draw_sprite(spr_lap2, 0, SCREEN_WIDTH / 2, 100);
+</code></pre>
+This will show <mark>spr_lap2</mark> at the top center of the <em>screen</em>.
