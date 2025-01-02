@@ -72,18 +72,18 @@
 			if (!filename.endsWith(".html"))
 				filename += ".html";
 
-			// fadein
-			content.style.opacity = 0;
-			content.style.animation = "";
-			content.offsetHeight;
-			content.style.animation = "fadein .1s forwards";
-
 			// get html and set it
 			const response = await fetch(filename);
 			const text = await response.text();
 
 			set_inner_html(content, text);
 			hljs.highlightAll();
+
+			// fadein
+			content.style.opacity = 0;
+			content.style.animation = "";
+			content.offsetHeight;
+			content.style.animation = "fadein .1s forwards";
 
 			// change selection
 			document.querySelectorAll(".item").forEach(item =>
