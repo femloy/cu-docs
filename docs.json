@@ -47,5 +47,9 @@
         "remix": "REMIX",
         "states": "states"
     },
-    "main-page": "What is this?"
+    "Tips":
+    {
+        "static": "@Static"
+    },
+    "main-page": "@What is this?"
 }

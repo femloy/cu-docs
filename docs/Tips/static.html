@@ -1,0 +1,19 @@
+<h1>static</h1>
+In GML code, you can use static variables.<br>
+<pre><code class="language-gml">static counter = 0; // Only happens once
+counter += 1; // Will keep increasing every time this code runs
+</code></pre>
+These are localized to each GML file - you can't share them.<br>
+<br>
+BUT.<br>
+<br>
+For some reason, this is kind of unreliable.<br>
+If you try to set it to a more complex value, like a struct, <em>it will throw an error.</em><br>
+<br>
+Here's a workaround for that:
+<pre><code class="language-gml">static s = undefined; // Won't crash
+
+if s == undefined
+    s = {}; // Works, but it's ugly. It is what it is
+</code></pre>
+This is a GMLive bug.
